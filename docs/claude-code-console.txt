@@ -1,0 +1,27 @@
+# claude -p session recorded by scripts/claude_session.sh (compact view of its stream-json output)
+# claude -p --mcp-config mcp.json --strict-mcp-config --allowedTools "mcp__ops__*" --tools "" --model claude-haiku-5-5
+# run 1: investigate + preview (operator did not approve)
+-> mcp__ops__list_tickets {"status": "open", "priority": "urgent", "limit": 5}
+   <- { "rows": [], "returned": 0, "truncated": false }
+claude: No open tickets are marked urgent. I'll check all open tickets, since the list is sorted by urgency.
+-> mcp__ops__list_tickets {"status": "open", "limit": 5}
+   <- { "rows": [ { "id": 13, "customer_id": 33, "order_id": 58, "subject": "Where is my order?", "status": "open", 
+claude: No ticket is urgent, so the most urgent open ticket is the oldest high-priority one: ticket 13. I'll read it along with its customer and order.
+-> mcp__ops__get_ticket {"ticket_id": 13}
+   <- { "id": 13, "customer_id": 33, "order_id": 58, "subject": "Where is my order?", "body": "Order #58 still shows
+-> mcp__ops__get_customer {"customer_id": 33}
+   <- { "id": 33, "name": "Zara Reyes", "company": "Juniper Dental", "email": "zara.reyes33@juniper-dental.example",
+-> mcp__ops__get_order {"order_id": 58}
+   <- { "id": 58, "customer_id": 33, "status": "shipped", "created_at": "2026-08-09", "total_usd": "1732.00", "items
+-> mcp__ops__update_ticket_status {"ticket_id": 13, "new_status": "pending", "note": "Customer reports order #58 still pending. Order now shows 
+   <- { "status": "preview_only", "nothing_written": true, "plan": { "ticket_id": 13, "from_status": "open", "to_sta
+claude: **Summary:** No open ticket is marked urgent, so I used the oldest high-priority one, ticket #13, "Where is my order?". Zara Reyes (Juniper Dental, GB
+[7 turns, 8.8 s]
+# run 2: operator approves -> fresh preview -> confirm
+-> mcp__ops__update_ticket_status {"ticket_id": 13, "new_status": "pending", "note": "Order shows shipped; asked the customer to check with thei
+   <- { "status": "preview_only", "nothing_written": true, "plan": { "ticket_id": 13, "from_status": "open", "to_sta
+claude: The preview is ready: ticket 13 goes from `open` to `pending`, with the note you gave. Applying it now with the token from that preview.
+-> mcp__ops__update_ticket_status {"ticket_id": 13, "new_status": "pending", "note": "Order shows shipped; asked the customer to check with thei
+   <- { "status": "written", "ticket_id": 13, "from_status": "open", "to_status": "pending", "note": "Order shows sh
+claude: Ticket 13 is now `pending`. The write went through. - **Status:** `open` → `pending` - **Note:** "Order shows shipped; asked the customer to check wit
+[3 turns, 6.5 s]

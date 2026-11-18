@@ -1,0 +1,8 @@
+{"ts": "2026-11-18T01:08:10.995+00:00", "tool": "list_tickets", "args": {"status": "open", "priority": "urgent", "customer_id": null, "limit": 5}, "outcome": "ok", "detail": {"returned": 0}}
+{"ts": "2026-11-18T01:08:12.397+00:00", "tool": "list_tickets", "args": {"status": "open", "priority": null, "customer_id": null, "limit": 5}, "outcome": "ok", "detail": {"returned": 5}}
+{"ts": "2026-11-18T01:08:14.006+00:00", "tool": "get_ticket", "args": {"ticket_id": 13}, "outcome": "ok", "detail": {"returned": 1}}
+{"ts": "2026-11-18T01:08:14.139+00:00", "tool": "get_customer", "args": {"customer_id": 33}, "outcome": "ok", "detail": {"returned": 1}}
+{"ts": "2026-11-18T01:08:14.243+00:00", "tool": "get_order", "args": {"order_id": 58}, "outcome": "ok", "detail": {"returned": 1}}
+{"ts": "2026-11-18T01:08:16.454+00:00", "tool": "update_ticket_status", "args": {"ticket_id": 13, "new_status": "pending", "note": "Customer reports order #58 still pending. Order now shows shipped; checking delivery with carrier.", "confirm": false}, "outcome": "preview", "detail": {"returned": 1}}
+{"ts": "2026-11-18T01:08:22.818+00:00", "tool": "update_ticket_status", "args": {"ticket_id": 13, "new_status": "pending", "note": "Order shows shipped; asked the customer to check with their reception desk.", "confirm": false}, "outcome": "preview", "detail": {"returned": 1}}
+{"ts": "2026-11-18T01:08:26.494+00:00", "tool": "update_ticket_status", "args": {"ticket_id": 13, "new_status": "pending", "note": "Order shows shipped; asked the customer to check with their reception desk.", "confirm": true}, "outcome": "written", "detail": {"from": "open", "to": "pending"}}
